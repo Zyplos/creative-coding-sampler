@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>time piece</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: black;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function daySecondsElapsed() {
+        const totalSeconds = hour() * 60 * 60 + minute() * 60 + second();
+
+        return totalSeconds;
+      }
+
+      function percentDayDone() {
+        return totalDaySeconds() / 86400;
+      }
+
+      // === returns a COLOR object, NOT hex
+      function getSkyColor() {
+        const lerp1 = color("#fff2ce"); // yellow
+        const lerp2 = color("#938cd2"); // blue
+
+        const totalDaySeconds = daySecondsElapsed();
+        const lerpPercent = totalDaySeconds / 86400; // <- total seconds in a day
+
+        // console.log(lerpPercent)
+
+        const lerpedColor = lerpColor(lerp1, lerp2, lerpPercent);
+
+        return lerpedColor;
+      }
+
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        frameRate(1);
+        // background(getSkyColor()) .alpha() doesnt work on this
+        background(0); // stops weird flashing effect
+      }
+
+      function draw() {
+        background(0, 25); // 40
+        stroke(255); // circles look weird without this
+
+        // point(width / 2, height / 2);
+
+        const percentHourDone = (minute() * 60 + second()) / 3600;
+        console.log(percentHourDone);
+
+        line(0, height / 2, width * percentHourDone, height / 2);
+
+        rectMode(CENTER);
+
+        if (frameCount % 2) {
+          fill(255);
+          square(width * percentHourDone, height / 2, 25);
+        } else {
+          fill(0);
+          square(width * percentHourDone, height / 2, 25);
+          fill(255);
+        }
+
+        //second stuff (outer ring)
+        const mappedSecond = map(second(), 0, 59, 0, PI * 2);
+        ellipseMode(CENTER);
+        translate(width / 2, height / 2);
+        translate(p5.Vector.fromAngle(mappedSecond, 250));
+        ellipse(0, 0, 50, 50);
+      }
+
+      function windowResized() {
+        resizeCanvas(windowWidth, windowHeight);
+      }
+    </script>
+  </body>
+</html>

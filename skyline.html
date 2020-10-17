@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>skyline</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: black;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      //random city outline generator
+      function setup() {
+        createCanvas(windowWidth, windowHeight);
+        frameRate(1);
+        //noLoop();
+      }
+
+      function draw() {
+        background(255);
+        noStroke();
+
+        const flagColor1 = color(
+          "#" + Math.floor(Math.random() * 16777215).toString(16)
+        );
+        const flagColor2 = color(
+          "#" + Math.floor(Math.random() * 16777215).toString(16)
+        );
+        const flagColor3 = color(
+          "#" + Math.floor(Math.random() * 16777215).toString(16)
+        );
+
+        const skySegments = 20;
+        //sky bg
+        for (let i = 0; i < height; i += skySegments) {
+          //
+          if (i < height * 0.3) {
+            fill(flagColor1);
+          } else if (i >= height * 0.3 && i <= height * 0.6) {
+            fill("white");
+          } else {
+            fill(flagColor1);
+          }
+          rect(0, i, width, skySegments);
+        }
+
+        fill(flagColor2);
+        textSize(145);
+        textAlign(CENTER);
+        text("✦", width / 2, height / 2 + 35);
+
+        let spaceTaken = 0;
+        while (spaceTaken < width + width) {
+          randomSeed();
+          //fill("#" + Math.floor(Math.random()*16777215).toString(16))
+          //stroke("red")
+          let buildingHeight = Math.floor(random(50, 300));
+          const buildingWidth = Math.floor(random(30, 70));
+          //console.log(`h ${buildingHeight} w ${buildingWidth}`)
+
+          const randomExtraHeight = Math.floor(random(0, 10));
+
+          if ([5].includes(randomExtraHeight)) {
+            //console.log("ADDING HEIGHT");
+            buildingHeight += Math.floor(random(50, 300));
+          }
+
+          const randomShift = Math.floor(random(0, 60));
+
+          let randomRoundedL = Math.floor(random(0, 10));
+          let randomRoundedR = Math.floor(random(0, 10));
+          if ([3, 9].includes(randomRoundedL)) {
+            randomRoundedL = Math.floor(random(0, 40));
+          }
+          if ([4, 7].includes(randomRoundedR)) {
+            randomRoundedR = Math.floor(random(0, 40));
+          }
+
+          const randomFeature = Math.floor(random(0, 10));
+          //fill("red");
+          if (randomFeature == 1) {
+            //simple square addon
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.15,
+              height - buildingHeight - 10,
+              buildingWidth * 0.7,
+              buildingHeight
+            );
+          }
+          if ([2, 3].includes(randomFeature)) {
+            //fill("blue");
+            //double square addon
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.15,
+              height - buildingHeight - 10,
+              buildingWidth * 0.7,
+              buildingHeight
+            );
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.25,
+              height - buildingHeight - 20,
+              buildingWidth * 0.5,
+              buildingHeight
+            );
+          }
+          if (randomFeature == 4) {
+            //double spike
+            //fill("lime");
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.15,
+              height - buildingHeight - 10,
+              buildingWidth * 0.7,
+              buildingHeight
+            );
+            //fill("#" + Math.floor(Math.random() * 16777215).toString(16));
+            triangle(
+              spaceTaken - 300 + buildingWidth * 0.15,
+              height - buildingHeight - 10,
+              spaceTaken - 300 + buildingWidth * 0.3,
+              height - buildingHeight - 10,
+              spaceTaken - 300 + buildingWidth * 0.2,
+              height - buildingHeight - 60
+            );
+
+            triangle(
+              spaceTaken - 300 + buildingWidth * 0.7,
+              height - buildingHeight - 10,
+              spaceTaken - 300 + buildingWidth * 0.85,
+              height - buildingHeight - 10,
+              spaceTaken - 300 + buildingWidth * 0.77,
+              height - buildingHeight - 60
+            );
+          }
+          if (randomFeature == 5) {
+            //corner square
+            //fill("darkgray")
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.47,
+              height - buildingHeight - 10,
+              buildingWidth * 0.5,
+              buildingHeight
+            );
+          }
+          if (randomFeature == 6) {
+            //staired roof
+            //fill("#ffd300")
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.47,
+              height - buildingHeight - 5,
+              buildingWidth * 0.5,
+              buildingHeight
+            );
+            //fill("#ff3e3e")
+            rect(
+              spaceTaken - 300 + buildingWidth * 0,
+              height - buildingHeight - 10,
+              buildingWidth * 0.5,
+              buildingHeight
+            );
+          }
+          if (randomFeature == 7) {
+            //roof cliff
+            //fill("green")
+            triangle(
+              spaceTaken - 300 + buildingWidth * -0.2,
+              height - buildingHeight,
+              spaceTaken - 300 + buildingWidth * 1.2,
+              height - buildingHeight,
+              spaceTaken - 300 + buildingWidth * 0.5,
+              height - buildingHeight + 30
+            );
+          }
+          if (randomFeature == 8) {
+            //triangle roof
+            //fill("lightblue")
+            triangle(
+              spaceTaken - 300 + buildingWidth,
+              height - buildingHeight,
+              spaceTaken - 300 + buildingWidth * 0,
+              height - buildingHeight,
+              spaceTaken - 300 + buildingWidth * 0.5,
+              height - buildingHeight - 30
+            );
+          }
+          if (randomFeature == 9) {
+            //single spike
+            //fill("orange")
+            triangle(
+              spaceTaken - 300 + buildingWidth * 0.4,
+              height - buildingHeight - 10,
+              spaceTaken - 300 + buildingWidth * 0.6,
+              height - buildingHeight - 10,
+              spaceTaken - 300 + buildingWidth * 0.5,
+              height - buildingHeight - 100
+            );
+            //fill("pink")
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.33,
+              height - buildingHeight - 50,
+              buildingWidth * 0.34,
+              buildingHeight
+            );
+            //fill("purple");
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.15,
+              height - buildingHeight - 10,
+              buildingWidth * 0.7,
+              buildingHeight
+            );
+            rect(
+              spaceTaken - 300 + buildingWidth * 0.25,
+              height - buildingHeight - 20,
+              buildingWidth * 0.5,
+              buildingHeight
+            );
+          }
+
+          // rect(spaceTaken - 300, height - buildingHeight, buildingWidth, buildingHeight, randomRoundedL, randomRoundedR, 0, 0)
+
+          rect(
+            spaceTaken - 300,
+            height - buildingHeight,
+            buildingWidth,
+            buildingHeight
+          );
+
+          //BUILDING FILL
+          //fill("black");
+
+          fill(Math.floor(random(0, 10)));
+
+          spaceTaken += buildingWidth - randomShift;
+        }
+      }
+
+      function windowResized() {
+        resizeCanvas(windowWidth, windowHeight);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: black;
+}
+* {
+  box-sizing: border-box;
+}
+canvas {
+  display: block;
+}
+
+a {
+  color: #ff3e3e;
+}
+
+#hero {
+  background-color: black;
+  color: white;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+h2 {
+  margin: 0;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 32px;
+}
+
+.container {
+  padding: 40px;
+}
+
+#hero section {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+#hero p {
+  margin: 0;
+}
+
+.halved {
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 20px;
+  }
+
+  .halved {
+    max-width: 50%;
+  }
+
+  #hero {
+    font-size: 45px;
+  }
+  #hero p {
+    font-size: 26px;
+  }
+  #hero div {
+    margin-bottom: 42px;
+  }
+
+  h2 {
+    font-size: 45px;
+  }
+}
